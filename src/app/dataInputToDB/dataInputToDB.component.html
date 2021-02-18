@@ -1,0 +1,320 @@
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar"  style="background-image: url(../assets/images/ao.jpg);  background-repeat: repeat-y;">
+        <div class="custom-menu">
+        </div>
+        <div class="">
+            <h1><a class="logo">Korisnik <span>{{this.databaseService.trenutnoPrijavljen}}</span></a></h1>          <ul>
+            <li >
+              <a [routerLink]="['/dashboard']"><span class="fa fa-bar-chart mr-3"></span>Info ploča</a>
+            </li>
+            <li>
+              <a [routerLink]="['/calendar']"><span class="fa fa-calendar mr-3"></span>Kalendar</a>
+            </li>
+            <li>
+              <a [routerLink]="['/converter']"><span class="fa fa-eur mr-3"></span>Kalkulator valuta</a>
+            </li>
+            <li>
+              <a [routerLink]="['/today']"><span class="fa fa-calendar-times-o mr-3"></span>Aktualno</a>
+            </li>
+            <li>
+              <a [routerLink]="['/bookTrip']"><span class="fa fa-book mr-3"></span>Rezerviraj (AO)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/bookTripForOthers']"><span class="fa fa-address-book-o mr-3"></span>Rezerviraj
+                (Suradnici)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/rentEquip']"><span class="fa fa-shirtsinbulk mr-3"></span>Iznajmi opremu</a>
+            </li>
+            <li>
+              <a [routerLink]="['/rentShoes']"><span class="fa fa-tag mr-3"></span>Iznajmi patike</a>
+            </li>
+            <li>
+              <a [routerLink]="['/basicToAdvanced']"><span class="fa fa-arrows-h mr-3"></span>Prebačaj</a>
+            </li>
+            <li>
+              <a [routerLink]="['/employees']"><span class="fa fa-money mr-3"></span>Plati radnike</a>
+            </li>
+            <li>
+              <a [routerLink]="['/commissionFee']"><span class="fa fa-handshake-o mr-3"></span>Provizije</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allGroups']"><span class="fa fa-users mr-3"></span>Popis grupa (AO)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allPartnersTrips']"><span class="fa fa-users mr-3"></span>Popis grupa (Suradnici)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allRents']"><span class="fa fa-list mr-3"></span>Popis renta</a>
+            </li>
+            <li>
+              <a [routerLink]="['/dataInputToDB']"><span class="fa fa-database mr-3"></span>Unesi konstante</a>
+            </li>
+            <li>
+              <a (click)="this.databaseService.odjaviKorisnika()"><span class="fa fa-sign-out mr-3"></span>Odjavi se</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  
+    <!-- Page Content  -->
+    <div id="content">
+      <h1 class="naslovStranice">Unos konstanti</h1>
+
+      <form id="formaUnosaKonstanti">
+
+        <hr>
+        <h3>Izleti <button (click)="toggle('tblIzleti','divIzleti')" class="btn btn-secondary"><i
+              class="fa fa-plus-square" aria-hidden="true"></i></button></h3>
+        <table class="table table-striped" id="tblIzleti">
+          <tr>
+            <th>Naziv izleta: </th>
+            <td><input type="text" id="nazivIzleta" placeholder="Unesite naziv" /></td>
+          </tr>
+          <tr>
+            <th>Cijena za odraslu osobu:</th>
+            <td>
+              <input class="form-control" type="number" id="cijenaOdrasliUnos" placeholder="Unesite broj" min="1" />
+            </td>
+          </tr>
+          <tr>
+            <th>Cijena za djecu:</th>
+            <td>
+              <input class="form-control" type="number" id="cijenaDjecaUnos" placeholder="Unesite broj" min="1" />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="btnPotvrdaUnosIzleta" class="btn btn-outline-success"
+                (click)="potvrdaUnosIzleta(content)">Potvrdi unos izleta</button>
+            </td>
+          </tr>
+        </table>
+        <div id="divIzleti" class="popis">
+          <table class="tablicaKonstanti">
+            <tr>
+              <th>Naziv: </th>
+              <th>Cijena (djeca): </th>
+              <th>Cijena (odrasli): </th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let suradnik of this.databaseService.podaciOvaGodina.constIzleti">
+              <td>{{suradnik.Naziv}}</td>
+              <td>{{suradnik.CijenaDjeca}}</td>
+              <td>{{suradnik.CijenaOdrasli}}</td>
+              <td style="width: 5%;"><button id="{{suradnik.Naziv}}" (click)="ukloniNasIzlet(suradnik.Naziv)"><i
+                    class="fa fa-times iks" aria-hidden="true"></i></button></td>
+            </tr>
+          </table>
+        </div>
+
+
+
+        <hr>
+        <h3>Izleti suradnika <button (click)="toggle('tblIzletiSuradnika','divIzletiSuradnika')"
+            class="btn btn-secondary"><i class="fa fa-plus-square" aria-hidden="true"></i></button></h3>
+        <table class="table table-striped" id="tblIzletiSuradnika">
+          <tr>
+            <th>Naziv izleta: </th>
+            <td><input type="text" id="nazivIzletaSuradnika" placeholder="Unesite naziv" /></td>
+          </tr>
+          <tr>
+            <th>Cijena za odraslu osobu:</th>
+            <td>
+              <input class="form-control" type="number" id="cijenaOdrasliUnosSuradnici" placeholder="Unesite broj"
+                min="1" />
+            </td>
+          </tr>
+          <tr>
+            <th>Cijena za djecu:</th>
+            <td>
+              <input class="form-control" type="number" id="cijenaDjecaUnosSuradnici" placeholder="Unesite broj"
+                min="1" />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="btnPotvrdaUnosIzletaSuradnik" class="btn btn-outline-success"
+                (click)="potvrdaUnosIzletaSuradnika(content)">Potvrdi unos suradnikova izleta</button>
+            </td>
+          </tr>
+        </table>
+        <div id="divIzletiSuradnika" class="popis">
+          <table class="tablicaKonstanti">
+            <tr>
+              <th>Naziv: </th>
+              <th>Cijena (djeca): </th>
+              <th>Cijena (odrasli): </th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let suradnik of this.databaseService.podaciOvaGodina.constPartnerskiIzleti">
+              <td>{{suradnik.Naziv}}</td>
+              <td>{{suradnik.CijenaDjeca}}</td>
+              <td>{{suradnik.CijenaOdrasli}}</td>
+              <td style="width: 5%;"><button id="{{suradnik.Naziv}}" (click)="ukloniPartnerskiIzlet(suradnik.Naziv)"><i
+                    class="fa fa-times iks" aria-hidden="true"></i></button></td>
+            </tr>
+          </table>
+        </div>
+
+
+        <hr>
+        <h3>Platforme <button (click)="toggle('tblPlatforme','divPlatforme')" class="btn btn-secondary"><i
+              class="fa fa-plus-square" aria-hidden="true"></i></button></h3>
+        <table class="table table-striped" id="tblPlatforme">
+          <tr>
+            <th>Naziv platforme: </th>
+            <td><input type="text" id="nazivPlatforme" placeholder="Unesite naziv" /></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="btnPotvrdaUnosPlatforme" class="btn btn-outline-success"
+                (click)="potvrdaUnosPlatforme(content)">Potvrdi unos platforme</button>
+            </td>
+          </tr>
+        </table>
+        <div id="divPlatforme" class="popis">
+          <table class="tablicaKonstanti">
+            <tr>
+              <th>Naziv: </th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let suradnik of this.databaseService.podaciOvaGodina.constPlatforme">
+              <td>{{suradnik.Naziv}}</td>
+              <td style="width: 5%;"><button id="{{suradnik.Naziv}}" (click)="ukloniPlatformu(suradnik.Naziv)"><i
+                    class="fa fa-times iks" aria-hidden="true"></i></button></td>
+            </tr>
+          </table>
+        </div>
+
+
+        <hr>
+        <h3>Suradnici <button (click)="toggle('tblSuradnici','divSuradnici')" class="btn btn-secondary"><i
+              class="fa fa-plus-square" aria-hidden="true"></i></button></h3>
+        <table class="table table-striped" id="tblSuradnici">
+          <tr>
+            <th>Naziv suradnika: </th>
+            <td><input type="text" id="nazivSuradnikaUnos" placeholder="Unesite naziv" /></td>
+          </tr>
+          <tr>
+            <th>Tip suradnika: </th>
+            <td>
+              <select id="tipSuradnikaUnos">
+                <option name="" disabled selected value="x">Odaberi tip</option>
+                <option *ngFor="let tip of tipoviSuradnika" value="{{tip}}">{{tip}}</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="btnPotvrdaUnosSuradnika" class="btn btn-outline-success"
+                (click)="potvrdaUnosSuradnika(content)">Potvrdi unos suradnika</button>
+            </td>
+          </tr>
+        </table>
+        <div id="divSuradnici" class="popis">
+          <table class="tablicaKonstanti">
+            <tr>
+              <th>Naziv: </th>
+              <th>Tip: </th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let suradnik of this.databaseService.podaciOvaGodina.constPartneri">
+              <td>{{suradnik.Naziv}}</td>
+              <td>{{suradnik.Tip}}</td>
+              <td style="width: 5%;"><button id="{{suradnik.Naziv}}" (click)="ukloniSuradnika(suradnik.Naziv)"><i
+                    class="fa fa-times iks" aria-hidden="true"></i></button></td>
+            </tr>
+          </table>
+        </div>
+
+
+        <hr>
+        <h3>Vodici <button (click)="toggle('tblVodici','divVodici')" class="btn btn-secondary"><i
+              class="fa fa-plus-square" aria-hidden="true"></i></button></h3>
+        <table class="table table-striped" id="tblVodici">
+          <tr>
+            <th>Ime vodica: </th>
+            <td><input type="text" id="nazivVodicaUnos" placeholder="Unesite ime i prezime" /></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="btnPotvrdaUnosVodica" class="btn btn-outline-success"
+                (click)="potvrdaUnosVodica(content)">Potvrdi unos vodica</button>
+            </td>
+          </tr>
+        </table>
+        <div id="divVodici" class="popis">
+          <table class="tablicaKonstanti">
+            <tr>
+              <th>Ime: </th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let suradnik of this.databaseService.podaciOvaGodina.constVodici">
+              <td>{{suradnik.Ime}}</td>
+              <td style="width: 5%;"><button id="{{suradnik.Ime}}" (click)="ukloniVodica(suradnik.Ime)"><i
+                    class="fa fa-times iks" aria-hidden="true"></i></button></td>
+            </tr>
+          </table>
+        </div>
+
+        <hr>
+        <h3>Vozaci <button (click)="toggle('tblVozaci','divVozaci')" class="btn btn-secondary"><i
+              class="fa fa-plus-square" aria-hidden="true"></i></button></h3>
+        <table class="table table-striped" id="tblVozaci" placeholder="Unesite ime i prezime">
+          <tr>
+            <th>Ime vozaca: </th>
+            <td><input type="text" id="nazivVozacaUnos" /></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="btnPotvrdaUnosVozaca" class="btn btn-outline-success"
+                (click)="potvrdaUnosVozaca(content)">Potvrdi unos vozaca</button>
+            </td>
+          </tr>
+        </table>
+
+        <div id="divVozaci" class="popis">
+          <table class="tablicaKonstanti">
+            <tr>
+              <th>Ime: </th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let suradnik of this.databaseService.podaciOvaGodina.constVozaci">
+              <td>{{suradnik.Ime}}</td>
+              <td style="width: 5%;"><button id="{{suradnik.Ime}}" (click)="ukloniVozaca(suradnik.Ime)"><i
+                    class="fa fa-times iks" aria-hidden="true"></i></button></td>
+            </tr>
+          </table>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <ng-template #content let-modal id="modalBox">
+    <div class="modal-header">
+      <h4 id="modal-basic-title"></h4>
+
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-striped" id="tablicaKardinalnihGresaka">
+        <tr *ngFor="let greska of listaKardinalnihGresaka">
+          <th><i id="emojiAlert" class="fa fa-exclamation-triangle"></i></th>
+          <td>{{greska}}</td>
+        </tr>
+      </table>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" id="btnPotvrdiUnos"
+        (click)="zavrsniSUnosom()">Potvrdi</button>
+      <button type="button" class="btn btn-outline-danger" id="btnOdustaniUnos"
+        (click)="this.modalService.dismissAll()">Odustani</button>
+    </div>
+  </ng-template>
+</body>

@@ -1,0 +1,171 @@
+<body>
+  <div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar" style="background-image: url(../assets/images/ao.jpg);  background-repeat: repeat-y;">
+      <div class="custom-menu">
+      </div>
+      <div class="">
+        <h1><a class="logo">Korisnik <span>{{this.databaseService.trenutnoPrijavljen}}</span></a></h1>
+        <ul>
+          <li >
+            <a [routerLink]="['/dashboard']"><span class="fa fa-bar-chart mr-3"></span>Info ploča</a>
+          </li>
+          <li>
+            <a [routerLink]="['/calendar']"><span class="fa fa-calendar mr-3"></span>Kalendar</a>
+          </li>
+          <li>
+            <a [routerLink]="['/converter']"><span class="fa fa-eur mr-3"></span>Kalkulator valuta</a>
+          </li>
+          <li>
+            <a [routerLink]="['/today']"><span class="fa fa-calendar-times-o mr-3"></span>Aktualno</a>
+          </li>
+          <li>
+            <a [routerLink]="['/bookTrip']"><span class="fa fa-book mr-3"></span>Rezerviraj (AO)</a>
+          </li>
+          <li>
+            <a [routerLink]="['/bookTripForOthers']"><span class="fa fa-address-book-o mr-3"></span>Rezerviraj
+              (Suradnici)</a>
+          </li>
+          <li>
+            <a [routerLink]="['/rentEquip']"><span class="fa fa-shirtsinbulk mr-3"></span>Iznajmi opremu</a>
+          </li>
+          <li>
+            <a [routerLink]="['/rentShoes']"><span class="fa fa-tag mr-3"></span>Iznajmi patike</a>
+          </li>
+          <li>
+            <a [routerLink]="['/basicToAdvanced']"><span class="fa fa-arrows-h mr-3"></span>Prebačaj</a>
+          </li>
+          <li>
+            <a [routerLink]="['/employees']"><span class="fa fa-money mr-3"></span>Plati radnike</a>
+          </li>
+          <li>
+            <a [routerLink]="['/commissionFee']"><span class="fa fa-handshake-o mr-3"></span>Provizije</a>
+          </li>
+          <li>
+            <a [routerLink]="['/allGroups']"><span class="fa fa-users mr-3"></span>Popis grupa (AO)</a>
+          </li>
+          <li>
+            <a [routerLink]="['/allPartnersTrips']"><span class="fa fa-users mr-3"></span>Popis grupa (Suradnici)</a>
+          </li>
+          <li>
+            <a [routerLink]="['/allRents']"><span class="fa fa-list mr-3"></span>Popis renta</a>
+          </li>
+          <li>
+            <a [routerLink]="['/dataInputToDB']"><span class="fa fa-database mr-3"></span>Unesi konstante</a>
+          </li>
+          <li>
+            <a (click)="this.databaseService.odjaviKorisnika()"><span class="fa fa-sign-out mr-3"></span>Odjavi se</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5 pt-5">
+      <div class="row" id="red">
+        <div class="col-md-6 col-lg-3">
+          <div class="statistic__item">
+            <span class="desc">Ukupno gostiju</span>
+            <h2 id="ispisUkupnoGostiju"></h2>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="statistic__item">
+            <span class="desc">Ukupno grupa</span>
+            <h2 class="number" *ngIf="this.databaseService.podaciOvaGodina != null">
+              {{this.databaseService.podaciOvaGodina.listaSvihNasihIzleta.length}}</h2>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="statistic__item">
+            <span class="desc">Ukupno tura</span>
+            <h2 class="number">{{this.databaseService.indeksTura}}</h2>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="statistic__item">
+            <span class="desc">Opreme iznajmljeno</span>
+            <h2 class="number" *ngIf="this.databaseService.podaciOvaGodina != null">
+              {{this.databaseService.podaciOvaGodina.listaSvihRentovaOpreme.length}}</h2>
+          </div>
+        </div>
+        <br>
+        <div class="col-md-6 col-lg-3">
+          <div class="statistic__item">
+            <span class="desc">Patika izjajmljeno</span>
+            <h2 class="number">{{brPariPatika}}</h2>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="statistic__item">
+            <span class="desc">Ukupno prebacaja</span>
+            <h2 class="number">{{brPrebacaja}}</h2>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+          <div class="statistic__item">
+            <span class="desc">Suradnickih izleta</span>
+            <h2 class="number" *ngIf="this.databaseService.podaciOvaGodina != null">
+              {{this.databaseService.podaciOvaGodina.listaSvihPartnerskihIzleta.length}}</h2>
+          </div>
+        </div>
+
+
+      </div>
+      <section class="container">
+        <div class="card">
+          <h5 class="card-header vrhKartice" id="ker">Danas</h5>
+          <div class="dnsGrafovi">
+            <canvas id="chartGostiPoIzletimaDanas" class="chart one" align="center"></canvas>
+            <canvas id="chartZaradaPoIzletimaDanas" class="chart one" align="center"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="container">
+        <div class="card">
+          <h5 class="card-header vrhKartice">Ovaj mjesec</h5>
+          <div class="dnsGrafovi">
+            <canvas id="chartGostiPoIzletuOvajMjesec" class="chart one" align="center"></canvas>
+            <canvas id="chartZaradaPoIzletuOvajMjesec" class="chart one" align="center"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="container">
+        <div class="card">
+          <h5 class="card-header vrhKartice">Sezona</h5>
+          <div class="dnsGrafovi">
+            <canvas id="chartGostiPoMjesecima" class="chart one" align="center"></canvas>
+            <canvas id="chartZaradaPoMjesecima" class="chart one" align="center"></canvas>
+          </div>
+          <div class="dnsGrafovi" style="margin-top: 3%;">
+            <canvas id="chartPlatforme" class="chart one" align="center"></canvas>
+            <canvas id="chartSuradnici" class="chart one" align="center"></canvas>
+          </div>
+          <div class="dnsGrafovi" style="margin-top: 3%;">
+            <canvas id="chartVodici" class="chart one" align="center"></canvas>
+            <canvas id="chartVozaci" class="chart one" align="center"></canvas>
+          </div>
+          <div class="dnsGrafovi" style="margin-top: 3%;">
+            <canvas id="chartBookeri" class="chart one" align="center"></canvas>
+            <canvas id="chartNacinPlacanja" class="chart one" align="center"></canvas>
+          </div>
+
+          <div class="dnsGrafovi" style="margin-top: 3%;">
+            <canvas id="chartSuradnickiIzleti" class="chart one" align="center"></canvas>
+            <canvas id="chartZemlje" class="chart one" align="center"></canvas>
+          </div>
+
+          <div class="dnsGrafovi" style="margin-top: 3%;">
+            <canvas id="chartRentanaOprema" class="chart one" align="center"></canvas>
+            <canvas id="chartUdioZarade" class="chart one" align="center"></canvas>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,37 @@
+#red{
+    margin-left: 0%;
+    font-family: Montserrat-Bold;
+}
+
+
+#dnsGrafovi {
+    width: 100%;
+    margin: auto;
+  }
+
+
+.chart
+{
+  width: 40%;
+  height: 35%;
+  margin-left: 5%;
+}
+.container {
+  width: 101%;
+  margin: auto;
+}
+.dnsGrafovi {
+  margin: auto;
+  width: 100%;
+}
+
+.one {
+  float: left;
+  border: 0px;
+  
+}
+
+.vrhKartice{
+  font-family: Montserrat-Bold;
+
+}

@@ -1,0 +1,153 @@
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar"  style="background-image: url(../assets/images/ao.jpg);  background-repeat: repeat-y;">
+        <div class="custom-menu">
+        </div>
+        <div class="">
+            <h1><a class="logo">Korisnik <span>{{this.databaseService.trenutnoPrijavljen}}</span></a></h1>          <ul>
+            <li  >
+              <a [routerLink]="['/dashboard']"><span class="fa fa-bar-chart mr-3"></span>Info ploča</a>
+            </li>
+            <li>
+              <a [routerLink]="['/calendar']"><span class="fa fa-calendar mr-3"></span>Kalendar</a>
+            </li>
+            <li>
+              <a [routerLink]="['/converter']"><span class="fa fa-eur mr-3"></span>Kalkulator valuta</a>
+            </li>
+            <li>
+              <a [routerLink]="['/today']"><span class="fa fa-calendar-times-o mr-3"></span>Aktualno</a>
+            </li>
+            <li>
+              <a [routerLink]="['/bookTrip']"><span class="fa fa-book mr-3"></span>Rezerviraj (AO)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/bookTripForOthers']"><span class="fa fa-address-book-o mr-3"></span>Rezerviraj
+                (Suradnici)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/rentEquip']"><span class="fa fa-shirtsinbulk mr-3"></span>Iznajmi opremu</a>
+            </li>
+            <li>
+              <a [routerLink]="['/rentShoes']"><span class="fa fa-tag mr-3"></span>Iznajmi patike</a>
+            </li>
+            <li>
+              <a [routerLink]="['/basicToAdvanced']"><span class="fa fa-arrows-h mr-3"></span>Prebačaj</a>
+            </li>
+            <li>
+              <a [routerLink]="['/employees']"><span class="fa fa-money mr-3"></span>Plati radnike</a>
+            </li>
+            <li>
+              <a [routerLink]="['/commissionFee']"><span class="fa fa-handshake-o mr-3"></span>Provizije</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allGroups']"><span class="fa fa-users mr-3"></span>Popis grupa (AO)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allPartnersTrips']"><span class="fa fa-users mr-3"></span>Popis grupa (Suradnici)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allRents']"><span class="fa fa-list mr-3"></span>Popis renta</a>
+            </li>
+            <li>
+              <a [routerLink]="['/dataInputToDB']"><span class="fa fa-database mr-3"></span>Unesi konstante</a>
+            </li>
+            <li>
+              <a (click)="this.databaseService.odjaviKorisnika()"><span class="fa fa-sign-out mr-3"></span>Odjavi se</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  
+
+    <!-- Page Content  -->
+    <div id="content">
+
+      <h1 class="naslovStranice">Iznajmi canyoning patike #{{this.databaseService.brojRentanihPatika+1}}</h1> 
+      <hr>
+      <table class="table table-striped" id="tablica">
+        <tr>
+          <th> <label for="datumUnos">Datum :</label></th>
+          <td>
+            <input type="date" class="form-control" id="datumUnos">
+          </td>
+        </tr>
+        <tr>
+          <th> <label for="kolicinaUnos">Kolicina :</label></th>
+          <td>
+            <input class="form-control" type="number" id="kolicinaUnos" placeholder="Unesite broj" min="1"
+              (mouseup)="osvjeziCijenu()" (keyup)="osvjeziCijenu()" />
+          </td>
+        </tr>
+        <tr>
+          <th> <label>Nacin placanja :</label></th>
+          <td>
+            <div>
+              <form>
+                <label class="radio-inline" id="lblGotovina">
+                  <input type="radio" name="placanje" id="gotovina" checked>Gotovina
+                </label>
+                <label class="radio-inline" id="lblKartica">
+                  <input type="radio" name="placanje" id="kartica">Kartica
+                </label>
+              </form>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th> <label for="ukupnoUnos">Ukupno :</label></th>
+          <td>
+            <span style="display: inline;">
+              <input class="form-control" type="number" id="ukupnoUnos" readonly class="d-inline" value="{{ukupno}}" />
+              <label for="placenoUnos" style="margin: 5%;" class="d-inline">Plaćeno :</label>
+              <input class="form-control" class="d-inline" type="number" id="placenoUnos" min="0" value="0"
+                (mouseup)="osvjeziCijenu()" (keyup)="osvjeziCijenu()" />
+              <label for="zaPlatitiUnos" style="margin: 5%;" class="d-inline">Za platiti :</label>
+              <input class="form-control" class="d-inline" type="number" id="zaPlatitiUnos" min="0" value="0"
+                readonly />
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <th></th>
+          <td>
+            <button id="potvrdaUnosaIzleta" class="btn btn-outline-success" (mouseenter)="osvjeziCijenu()"
+              (click)="potvrdiUnos(content)">Potvrdi unos</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #content let-modal id="modalBox">
+    <div class="modal-header">
+      <h4 id="modal-basic-title"></h4>
+
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-striped" id="tablicaKardinalnihGresaka">
+        <tr *ngFor="let greska of listaKardinalnihGresaka">
+          <th><i id="emojiAlert" class="fa fa-exclamation-triangle"></i></th>
+          <td>{{greska}}</td>
+        </tr>
+      </table>
+
+      <table class="table table-striped" id="tablicaObicnihGresaka">
+        <tr>
+          <td colspan="2"><br><i class="fa fa-save"></i><br>Da li ste sigurni da želite zaključiti rezervaciju pod brojem #{{this.databaseService.brojRentanihPatika+1}} ?</td>
+          <td align="center"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" id="btnPotvrdiUnos"
+        (click)="zavrsniSUnosom()">Potvrdi</button>
+      <button type="button" class="btn btn-outline-danger" id="btnOdustaniUnos"
+        (click)="this.modalService.dismissAll()">Odustani</button>
+    </div>
+  </ng-template>
+
+
+</body>

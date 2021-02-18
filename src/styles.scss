@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import 'assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css';
+@import 'assets/vendor/bootstrap/css/bootstrap.min.css';
+@import 'assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css';
+@import 'assets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css';
+@import 'assets/vendor/animate/animate.css';
+@import 'assets/vendor/css-hamburgers/hamburgers.min.css';
+@import 'assets/vendor/select2/select2.min.css';
+@import 'assets/css/util.css';
+@import 'assets/css/main.css';
+
+@import 'assets/css/style.css';
+
+@import 'assets/css/theme.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+body{
+    font-family: Montserrat-Bold;
+}
+
+h1
+{
+    margin: 0%;
+
+    text-align: center;
+    font-family: Montserrat-Bold;
+}
+
+#traka
+{
+  color: white;
+  font-family: Montserrat-Bold;
+  font-size: 13px; 
+  padding: 0.2%;
+  background-color: orange;
+}

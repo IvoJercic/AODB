@@ -1,0 +1,169 @@
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar"  style="background-image: url(../assets/images/ao.jpg);  background-repeat: repeat-y;">
+        <div class="custom-menu">
+        </div>
+        <div class="">
+            <h1><a class="logo">Korisnik <span>{{this.databaseService.trenutnoPrijavljen}}</span></a></h1>          <ul>
+            <li >
+              <a [routerLink]="['/dashboard']"><span class="fa fa-bar-chart mr-3"></span>Info ploča</a>
+            </li>
+            <li>
+              <a [routerLink]="['/calendar']"><span class="fa fa-calendar mr-3"></span>Kalendar</a>
+            </li>
+            <li>
+              <a [routerLink]="['/converter']"><span class="fa fa-eur mr-3"></span>Kalkulator valuta</a>
+            </li>
+            <li>
+              <a [routerLink]="['/today']"><span class="fa fa-calendar-times-o mr-3"></span>Aktualno</a>
+            </li>
+            <li>
+              <a [routerLink]="['/bookTrip']"><span class="fa fa-book mr-3"></span>Rezerviraj (AO)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/bookTripForOthers']"><span class="fa fa-address-book-o mr-3"></span>Rezerviraj
+                (Suradnici)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/rentEquip']"><span class="fa fa-shirtsinbulk mr-3"></span>Iznajmi opremu</a>
+            </li>
+            <li>
+              <a [routerLink]="['/rentShoes']"><span class="fa fa-tag mr-3"></span>Iznajmi patike</a>
+            </li>
+            <li>
+              <a [routerLink]="['/basicToAdvanced']"><span class="fa fa-arrows-h mr-3"></span>Prebačaj</a>
+            </li>
+            <li>
+              <a [routerLink]="['/employees']"><span class="fa fa-money mr-3"></span>Plati radnike</a>
+            </li>
+            <li>
+              <a [routerLink]="['/commissionFee']"><span class="fa fa-handshake-o mr-3"></span>Provizije</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allGroups']"><span class="fa fa-users mr-3"></span>Popis grupa (AO)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allPartnersTrips']"><span class="fa fa-users mr-3"></span>Popis grupa (Suradnici)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allRents']"><span class="fa fa-list mr-3"></span>Popis renta</a>
+            </li>
+            <li>
+              <a [routerLink]="['/dataInputToDB']"><span class="fa fa-database mr-3"></span>Unesi konstante</a>
+            </li>
+            <li>
+              <a (click)="this.databaseService.odjaviKorisnika()"><span class="fa fa-sign-out mr-3"></span>Odjavi se</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5 pt-5">
+      <h1>Plati radnike</h1>
+      <hr>
+      <div class="card" *ngFor="let item of rijecnik | keyvalue">
+        <div class="table table-hover table-dark" *ngIf="item.value.length>0">
+          <h3 class="naslovKartica">{{item.key}}</h3>
+        </div>
+        <div>
+          <table id="detaljiTure" class="table" *ngIf="item.value.length>0">
+            <tr class="zaglavlje">
+              <th>Tura #</th>
+              <th>Datum</th>
+              <th>Vrijeme</th>
+              <th>Izlet</th>
+              <th>Br. gostiju</th>
+              <th>Br. grupa</th>
+              <th>Plati</th>
+            </tr>
+            <tr *ngFor="let tura of item.value">
+              <td>{{tura.RedniBroj}}</td>
+              <td>{{tura.Datum}}</td>
+              <td>{{tura.Vrijeme}}</td>
+              <td>{{tura.Izlet}}</td>
+              <td>{{tura.BrojGostiju}}</td>
+              <td>{{tura.BrojGrupa}}</td>
+              <td><button (click)="otvoriIzbornikPlacanja(content,tura,item.key)" class="btn btn-outline-success"><i
+                    class="fa fa-money" aria-hidden="true"></i>
+                </button></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h3 id="naslovModala"> </h3>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+  <div class="modal-body">
+    <table id="podaci" class="table table-striped">
+      <tr>
+        <th>Redni broj ture: </th>
+        <td>
+          <input id="lblRedni" type="text" disabled class="labele" />
+        </td>
+      </tr>
+      <tr>
+        <th>Datum: </th>
+        <td>
+          <input id="lblDatumTure" type="text" disabled class="labele" />
+        </td>
+      </tr>
+      <tr>
+        <th>Vrijeme: </th>
+        <td>
+          <input id="lblVrijemeTure" type="text" disabled class="labele" />
+        </td>
+      </tr>
+      <tr>
+        <th>Izlet: </th>
+        <td>
+          <input id="lblIzletTure" type="text" disabled class="labele" />
+        </td>
+      </tr>
+      <tr>
+        <th>Iznos (gotovina): </th>
+        <td>
+          <input id="unosIznosaGotovina" type="number" min="0" class="labele" />
+        </td>
+      </tr>
+      <tr>
+        <th>Iznos (racun): </th>
+        <td>
+          <input id="unosIznosaRacun" type="number" min="0" class="labele" />
+        </td>
+      </tr>
+    </table>
+    <section class="container">
+        <div class="one">
+          <h4>Vodici</h4>
+          <hr>
+          <div id="vodiciNaTuri" class="kutija">
+          </div>
+        </div>
+        <div class="two">
+          <h4>Vozaci</h4>
+          <hr>
+          <div id="vozaciNaTuri" class="kutija">
+          </div>
+        </div>
+      </section>
+  
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" id="btnPotvrdiGrupu" (click)="potvrdiPlacanjeRadnik()">Potvrdi
+      placanje</button>
+    <button type="button" class="btn btn-outline-danger" id="btnOdustaniGrupu"
+      (click)="modal.dismiss('Cross click')">Vrati se</button>
+  </div>
+</ng-template>

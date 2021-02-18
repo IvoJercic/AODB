@@ -1,0 +1,120 @@
+h1{
+    margin: 0%;
+    text-align: center;
+    font-family: Montserrat-Bold;
+}
+
+h5,h4{
+    margin: 0%;
+    text-align: center;
+    font-family: Montserrat-Bold;
+}
+
+.zaglavljeTure{
+    text-align: center;
+    align-content: center;
+    width: 80%;
+}
+
+#detaljiTure{
+    font-size:small;
+}
+
+tr{
+    text-align: center;
+    font-size: small;
+}
+
+.card{
+    margin-top:3% ;
+}
+
+.infoBotuni{
+    zoom: 0.8;
+}
+
+  #podaci,.labele{
+      font-size:small;
+  }
+
+  .modal-body tr{
+      margin: 0%;
+      padding: 0%;
+  }
+
+
+  input[type="text"]:disabled {
+    background: white;
+  }
+  
+  
+  input[type="time"]:disabled {
+    background: white;
+  }
+  
+  input[type="number"]:disabled {
+    background: white;
+  }
+
+  .kutija{
+      margin: 0%;
+      display: block;
+      padding: 0%;
+      align-content: stretch;
+  }
+
+
+  input[type="checkbox"] {
+    zoom: 1.2;
+  }
+
+  .container {
+    width: 100%;
+    margin: auto;
+  }
+  
+  .one {
+    width: 50%;
+    float: left;
+  }
+  
+  .two {
+    margin-left: 15%;
+  }
+  
+  .naslovKartica{
+    color: white;
+    padding:2%;
+  }
+
+  .gostiKojiNisuDosli{
+    background: orange;
+    color: black;
+  }
+  .zaglavlje{
+    color: white;
+    background-color: #333333
+  }
+  
+p{
+  font-family: Montserrat-Bold;
+}
+
+.naslovKartica{
+  color: white;
+  padding: 2%;
+}
+.vrhKartice{
+  padding-top: 2%;
+}
+
+#lbl3SvaOprema{
+  height: auto;
+}
+
+#lbl3Proteklo
+{
+  resize: none;
+  height: 75px;
+  background-color: #fff;
+}

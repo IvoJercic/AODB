@@ -1,0 +1,222 @@
+<body>
+        <div class="wrapper d-flex align-items-stretch">
+            <nav id="sidebar"  style="background-image: url(../assets/images/ao.jpg);  background-repeat: repeat-y;">
+                <div class="custom-menu">
+            </div>
+            <div class="">
+                    <h1><a class="logo">Korisnik <span>{{this.databaseService.trenutnoPrijavljen}}</span></a></h1>
+                <ul>
+                <li>
+                  <a [routerLink]="['/dashboard']"><span class="fa fa-bar-chart mr-3"></span>Info ploča</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/calendar']"><span class="fa fa-calendar mr-3"></span>Kalendar</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/converter']"><span class="fa fa-eur mr-3"></span>Kalkulator valuta</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/today']"><span class="fa fa-calendar-times-o mr-3"></span>Aktualno</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/bookTrip']"><span class="fa fa-book mr-3"></span>Rezerviraj (AO)</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/bookTripForOthers']"><span class="fa fa-address-book-o mr-3"></span>Rezerviraj
+                    (Suradnici)</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/rentEquip']"><span class="fa fa-shirtsinbulk mr-3"></span>Iznajmi opremu</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/rentShoes']"><span class="fa fa-tag mr-3"></span>Iznajmi patike</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/basicToAdvanced']"><span class="fa fa-arrows-h mr-3"></span>Prebačaj</a>
+                  </li>
+                <li>
+                  <a [routerLink]="['/employees']"><span class="fa fa-money mr-3"></span>Plati radnike</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/commissionFee']"><span class="fa fa-handshake-o mr-3"></span>Provizije</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/allGroups']"><span class="fa fa-users mr-3"></span>Popis grupa (AO)</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/allPartnersTrips']"><span class="fa fa-users mr-3"></span>Popis grupa (Suradnici)</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/allRents']"><span class="fa fa-list mr-3"></span>Popis renta</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/dataInputToDB']"><span class="fa fa-database mr-3"></span>Unesi konstante</a>
+                </li>
+                <li>
+                  <a (click)="this.databaseService.odjaviKorisnika()"><span class="fa fa-sign-out mr-3"></span>Odjavi se</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+              <!-- Page Content  -->
+        <div id="content" class="p-4 p-md-5 pt-5">
+            <h1>Popis svih rentova</h1>
+            <hr>
+            <div id="opremaDanas">
+                <div class="pojedinostiTure">
+                    <table class="table" id="detaljiRenta">
+                        <tr class="zaglavlje">
+                            <th>#</th>
+                            <th>Datum</th>
+                            <th>Vrijeme</th>
+                            <th>Vrsta</th>
+                            <th>Trajanje</th>
+                            <th>Predstavnik</th>
+                            <th>Zemlja</th>
+                            <th>Ukupan iznos</th>
+                            <th></th>
+                        </tr>
+                        <tr *ngFor="let t of this.databaseService.podaciOvaGodina.listaSvihRentovaOpreme">
+                            <td>{{t.RedniBroj}}</td>
+                            <td>{{t.Datum}}</td>
+                            <td>{{t.Vrijeme}}</td>
+                            <td>{{t.VrstaOpreme}}</td>
+                            <td>{{t.Trajanje}}</td>
+                            <td>{{t.Predstavnik}}</td>
+                            <td>{{t.Zemlja}}</td>
+                            <td>{{t.UkupanIznos}}</td>
+                            <td><button class="btn btn-light infoBotuni"
+                                    (click)="prikazDetaljaRenta(content,t.RedniBroj)"><i class="fa fa-info"
+                                        aria-hidden="true"></i></button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h3 id="brojRenta">Rent</h3>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <table id="podaci" class="table table-striped">
+            <tr>
+                <th>Datum: </th>
+                <td>
+                    <input id="lbl3Datum" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Vrijeme: </th>
+                <td>
+                    <input id="lbl3Vrijeme" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Vrsta: </th>
+                <td>
+                    <input id="lbl3Vrsta" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Oprema: </th>
+                <td>
+                    <textarea id="lbl3SvaOprema" disabled class="labele"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>Ime predstavnika: </th>
+                <td>
+                    <input id="lbl3Predstavnik" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Zemlja: </th>
+                <td>
+                    <input id="lbl3Zemlja" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Kolicina: </th>
+                <td>
+                    <input id="lbl3Kolicina" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Trajanje: </th>
+                <td>
+                    <input id="lbl3Trajanje" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Nacin placanja: </th>
+                <td>
+                    <input id="lbl3Nacin" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Email: </th>
+                <td>
+                    <input id="lbl3Email" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Kontakt: </th>
+                <td>
+                    <input id="lbl3Kontakt" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Ukupno: </th>
+                <td>
+                    <input id="lbl3Ukupno" type="text" disabled class="labele"
+                        min="0" />
+                </td>
+            </tr>
+            <tr>
+                <th>Placeno: </th>
+                <td>
+                    <input id="lbl3Placeno" type="text" disabled  class="labele"
+                        min="0" />
+                </td>
+            </tr>
+            <tr>
+                <th>Za platiti: </th>
+                <td>
+                    <input id="lbl3Platiti" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Napomena: </th>
+                <td>
+                    <input id="lbl3Napomena" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Vraceno: </th>
+                <td>
+                    <input id="lbl3Vraceno" type="text" disabled class="labele" />
+                </td>
+            </tr>
+            <tr>
+                <th>Booker: </th>
+                <td>
+                    <input id="lbl3Booker" type="text" disabled class="labele" />
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" id="btnOdustaniRent"
+            (click)="modal.dismiss('Cross click')">Vrati se</button>
+    </div>
+</ng-template>

@@ -1,0 +1,514 @@
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar"  style="background-image: url(../assets/images/ao.jpg);  background-repeat: repeat-y;">
+        <div class="custom-menu">
+        </div>
+        <div class="">
+            <h1><a class="logo">Korisnik <span>{{this.databaseService.trenutnoPrijavljen}}</span></a></h1>          <ul>
+            <li >
+              <a [routerLink]="['/dashboard']"><span class="fa fa-bar-chart mr-3"></span>Info ploča</a>
+            </li>
+            <li>
+              <a [routerLink]="['/calendar']"><span class="fa fa-calendar mr-3"></span>Kalendar</a>
+            </li>
+            <li>
+              <a [routerLink]="['/converter']"><span class="fa fa-eur mr-3"></span>Kalkulator valuta</a>
+            </li>
+            <li>
+              <a [routerLink]="['/today']"><span class="fa fa-calendar-times-o mr-3"></span>Aktualno</a>
+            </li>
+            <li>
+              <a [routerLink]="['/bookTrip']"><span class="fa fa-book mr-3"></span>Rezerviraj (AO)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/bookTripForOthers']"><span class="fa fa-address-book-o mr-3"></span>Rezerviraj
+                (Suradnici)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/rentEquip']"><span class="fa fa-shirtsinbulk mr-3"></span>Iznajmi opremu</a>
+            </li>
+            <li>
+              <a [routerLink]="['/rentShoes']"><span class="fa fa-tag mr-3"></span>Iznajmi patike</a>
+            </li>
+            <li>
+              <a [routerLink]="['/basicToAdvanced']"><span class="fa fa-arrows-h mr-3"></span>Prebačaj</a>
+            </li>
+            <li>
+              <a [routerLink]="['/employees']"><span class="fa fa-money mr-3"></span>Plati radnike</a>
+            </li>
+            <li>
+              <a [routerLink]="['/commissionFee']"><span class="fa fa-handshake-o mr-3"></span>Provizije</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allGroups']"><span class="fa fa-users mr-3"></span>Popis grupa (AO)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allPartnersTrips']"><span class="fa fa-users mr-3"></span>Popis grupa (Suradnici)</a>
+            </li>
+            <li>
+              <a [routerLink]="['/allRents']"><span class="fa fa-list mr-3"></span>Popis renta</a>
+            </li>
+            <li>
+              <a [routerLink]="['/dataInputToDB']"><span class="fa fa-database mr-3"></span>Unesi konstante</a>
+            </li>
+            <li>
+              <a (click)="this.databaseService.odjaviKorisnika()"><span class="fa fa-sign-out mr-3"></span>Odjavi se</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  
+
+    <!-- Page Content  -->
+    <div id="content">
+      
+      <h1 class="naslovStranice">Rezerviraj izlet #{{this.databaseService.brojNasihIzleta+1}}</h1> 
+      <hr>
+      <table class="table table-striped" id="tablica">
+        <tr>
+          <th> <label for="datumUnos">Datum :</label></th>
+          <td>
+            <input type="date" class="form-control" id="datumUnos" (change)="popisTuraTogDana()">
+            <div id="popisTuraTajDan">
+              <table id="tblOdabraniDan">
+                <tr>
+                  <th>Vrijeme</th>
+                  <th>Izlet</th>
+                  <th>Gostiju</th>
+                  <th>Status</th>
+                </tr>
+                <tr *ngFor="let tura of tureOdabraniDan">
+                  <td>{{tura.Vrijeme}}</td>
+                  <td>{{tura.Izlet}}</td>
+                  <td>{{tura.Gosti}}</td>
+                  <td>{{tura.Status}}</td>
+                </tr>
+                <tr></tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th> <label for="vrijemeUnos">Vrijeme :</label></th>
+          <td>
+            <input type="time" class="form-control" id="vrijemeUnos" value="10:23 AM">
+          </td>
+        </tr>
+        <tr>
+          <th> <label for="predstavnikUnos">Ime predstavnika :</label></th>
+          <td>
+            <input class="form-control" type="text" id="predstavnikUnos" placeholder="Unesite ime predstavnika" />
+          </td>
+        </tr>
+        <tr>
+            <th> <label for="platformaUnos">Platforma :</label></th>
+            <td>
+              <select class="form-control" id="platformaUnos" (change)="promijeniPlatformu()">
+                <option name="nemaPlatforme" selected>Nema</option>
+                <option *ngFor="let p of this.databaseService.podaciOvaGodina.constPlatforme">{{p.Naziv}}</option>
+              </select>
+            </td>
+          </tr>
+  
+        <tr>
+          <th> <label for="suradnikUnos">Suradnik :</label></th>
+          <td>
+            <select class="form-control" id="suradnikUnos" (change)="promijeniSuradnika()">
+             <option value="Nema" selected>Nema suradnika</option>
+             <option *ngFor="let p of this.databaseService.podaciOvaGodina.constPartneri">{{p.Naziv}}</option>
+            </select>
+            <div id="suradnikOpcijaUnos">
+              <table id="tblSuradniciOpcije">
+                <tr>
+                  <th>
+                    <input type="radio" id="platiSve" name="suradnikOpcije" (click)="promijeniOpcijeSuradnika()" checked/>
+                  </th>
+                  <td>
+                    <label class="radio-inline" for="platiSve">Plati sve</label>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    <input type="radio" id="plati80" name="suradnikOpcije" (click)="promijeniOpcijeSuradnika()" />
+                  </th>
+                  <td>
+                    <label class="radio-inline" for="plati80">Plati 80% - Akontacija (20%) placena kod suradnika</label>
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    <input type="radio" id="platiNista" name="suradnikOpcije" (click)="promijeniOpcijeSuradnika()" />
+                  </th>
+                  <td>
+                    <label class="radio-inline" for="platiNista">Izlet u potpunosti plaćen suradniku</label>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th> <label for="vrstaUnos">Vrsta :</label></th>
+          <td>
+            <select class="form-control" id="vrstaUnos" (mouseup)="osvjeziCijenu()" (keyup)="osvjeziCijenu()">
+              <option name="" disabled selected>Odaberi izlet</option>
+              <option *ngFor="let p of this.databaseService.podaciOvaGodina.constIzleti"  value="{{p.CijenaOdrasli}}" >{{p.Naziv}}</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th> <label for="osobaUnos">Broj gostiju :</label></th>
+          <td>
+            <input class="form-control" type="number" id="osobaUnos" placeholder="Unesite broj" min="1"
+              (mouseup)="osvjeziCijenu()" (keyup)="osvjeziCijenu()" />
+          </td>
+        </tr>
+        <tr>
+          <th> <label>Nacin placanja :</label></th>
+          <td>
+            <div>
+              <form>
+                <label class="radio-inline" id="lblGotovina">
+                  <input type="radio" name="placanje" id="gotovina" checked>Gotovina
+                </label>
+                <label class="radio-inline" id="lblKartica">
+                  <input type="radio" name="placanje" id="kartica">Kartica
+                </label>
+              </form>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th> <label>Privatna tura :</label></th>
+          <td>
+            <div>
+              <form>
+                <label class="radio-inline" id="lblNePrivatna">
+                  <input type="radio" id="radioNePrivatna" name="privatna" checked (change)="osvjeziCijenu()">Ne
+                </label>
+                <label class="radio-inline" id="lblDaPrivatna">
+                  <input type="radio" id="radioDaPrivatna" name="privatna" (change)="osvjeziCijenu()">Da
+                </label>
+              </form>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th> <label for="ukupnoUnos">Ukupno :</label></th>
+          <td>
+            <span style="display: inline;">
+              <input class="form-control" type="number" id="ukupnoUnos" readonly class="d-inline" />
+              <label for="placenoUnos" style="margin: 5%;" class="d-inline">Plaćeno :</label>
+              <input class="form-control" class="d-inline" type="number" id="placenoUnos" min="0" value="0"
+                (mouseup)="osvjeziCijenu()" (keyup)="osvjeziCijenu()" />
+              <label for="zaPlatitiUnos" style="margin: 5%;" class="d-inline">Za platiti :</label>
+              <input class="form-control" class="d-inline" type="number" id="zaPlatitiUnos" min="0" value="0"
+                readonly />
+            </span>
+          </td>
+        </tr>
+        <tr>
+            <th> <label for="popustUnos">Popust (%) :</label></th>
+            <td>
+              <input class="form-control" type="number" id="popustUnos" value="0" min="0" max="100s"
+                (mouseup)="osvjeziCijenu()" (keyup)="osvjeziCijenu()" />
+            </td>
+          </tr>
+          <tr>
+              <th> <label for="prijevozUnos">Troškovi prijevoza :</label></th>
+              <td>
+                <input class="form-control" type="number" id="prijevozUnos" value="0" min="0" (mouseup)="osvjeziCijenu()"
+                  (keyup)="osvjeziCijenu()" />
+              </td>
+            </tr>        
+            <tr>
+                <th> <label for="mjestoUnos">Mjesto susreta :</label></th>
+                <td>
+                  <input class="form-control" type="text" id="mjestoUnos" value="Agencija" />
+                </td>
+              </tr>
+        <tr>
+          <th> <label for="zemljaUnos">Zemlja :</label></th>
+          <td>
+            <select id="zemljaUnos">
+              <option value="" disabled selected>Odaberi zemlju</option>
+              <option value="Afganistan">Afghanistan</option>
+              <option value="Albania">Albania</option>
+              <option value="Algeria">Algeria</option>
+              <option value="Andorra">Andorra</option>
+              <option value="Angola">Angola</option>
+              <option value="Antigua & Barbuda">Antigua & Barbuda</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Armenia">Armenia</option>
+              <option value="Australia">Australia</option>
+              <option value="Austria">Austria</option>
+              <option value="Azerbaijan">Azerbaijan</option>
+              <option value="Bahamas">Bahamas</option>
+              <option value="Bahrain">Bahrain</option>
+              <option value="Bangladesh">Bangladesh</option>
+              <option value="Barbados">Barbados</option>
+              <option value="Belarus">Belarus</option>
+              <option value="Belgium">Belgium</option>
+              <option value="Belize">Belize</option>
+              <option value="Benin">Benin</option>
+              <option value="Bhutan">Bhutan</option>
+              <option value="Bolivia">Bolivia</option>
+              <option value="Bosnia & Herzegovina">Bosnia & Herzegovina</option>
+              <option value="Botswana">Botswana</option>
+              <option value="Brazil">Brazil</option>
+              <option value="Brunei">Brunei</option>
+              <option value="Bulgaria">Bulgaria</option>
+              <option value="Burkina Faso">Burkina Faso</option>
+              <option value="Burundi">Burundi</option>
+              <option value="Cambodia">Cambodia</option>
+              <option value="Cameroon">Cameroon</option>
+              <option value="Canada">Canada</option>
+              <option value="Canary Islands">Canary Islands</option>
+              <option value="Cape Verde">Cape Verde</option>
+              <option value="Cayman Islands">Cayman Islands</option>
+              <option value="Central African Republic">Central African Republic</option>
+              <option value="Chad">Chad</option>
+              <option value="Chile">Chile</option>
+              <option value="China">China</option>
+              <option value="Colombia">Colombia</option>
+              <option value="Comoros">Comoros</option>
+              <option value="Congo">Congo</option>
+              <option value="Costa Rica">Costa Rica</option>
+              <option value="Cote DIvoire">Cote DIvoire</option>
+              <option value="Croatia">Croatia</option>
+              <option value="Cuba">Cuba</option>
+              <option value="Cyprus">Cyprus</option>
+              <option value="Czech Republic">Czech Republic</option>
+              <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
+              <option value="Denmark">Denmark</option>
+              <option value="Djibouti">Djibouti</option>
+              <option value="Dominica">Dominica</option>
+              <option value="Dominican Republic">Dominican Republic</option>
+              <option value="East Timor">East Timor</option>
+              <option value="Ecuador">Ecuador</option>
+              <option value="Egypt">Egypt</option>
+              <option value="El Salvador">El Salvador</option>
+              <option value="Equatorial Guinea">Equatorial Guinea</option>
+              <option value="Eritrea">Eritrea</option>
+              <option value="Estonia">Estonia</option>
+              <option value="Ethiopia">Ethiopia</option>
+              <option value="Faroe Islands">Faroe Islands</option>
+              <option value="Fiji">Fiji</option>
+              <option value="Finland">Finland</option>
+              <option value="France">France</option>
+              <option value="French Guiana">French Guiana</option>
+              <option value="Gabon">Gabon</option>
+              <option value="Gambia">Gambia</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Germany">Germany</option>
+              <option value="Ghana">Ghana</option>
+              <option value="Gibraltar">Gibraltar</option>
+              <option value="Great Britain">Great Britain</option>
+              <option value="Greece">Greece</option>
+              <option value="Greenland">Greenland</option>
+              <option value="Grenada">Grenada</option>
+              <option value="Guatemala">Guatemala</option>
+              <option value="Guinea">Guinea</option>
+              <option value="Guyana">Guyana</option>
+              <option value="Haiti">Haiti</option>
+              <option value="Honduras">Honduras</option>
+              <option value="Hong Kong">Hong Kong</option>
+              <option value="Hungary">Hungary</option>
+              <option value="Iceland">Iceland</option>
+              <option value="Indonesia">Indonesia</option>
+              <option value="India">India</option>
+              <option value="Iran">Iran</option>
+              <option value="Iraq">Iraq</option>
+              <option value="Ireland">Ireland</option>
+              <option value="Israel">Israel</option>
+              <option value="Italy">Italy</option>
+              <option value="Jamaica">Jamaica</option>
+              <option value="Japan">Japan</option>
+              <option value="Jordan">Jordan</option>
+              <option value="Kazakhstan">Kazakhstan</option>
+              <option value="Kenya">Kenya</option>
+              <option value="Kiribati">Kiribati</option>
+              <option value="Korea North">Korea North</option>
+              <option value="Korea South">Korea South</option>
+              <option value="Kuwait">Kuwait</option>
+              <option value="Kyrgyzstan">Kyrgyzstan</option>
+              <option value="Laos">Laos</option>
+              <option value="Latvia">Latvia</option>
+              <option value="Lebanon">Lebanon</option>
+              <option value="Lesotho">Lesotho</option>
+              <option value="Liberia">Liberia</option>
+              <option value="Libya">Libya</option>
+              <option value="Liechtenstein">Liechtenstein</option>
+              <option value="Lithuania">Lithuania</option>
+              <option value="Luxembourg">Luxembourg</option>
+              <option value="Macau">Macau</option>
+              <option value="Macedonia">Macedonia</option>
+              <option value="Madagascar">Madagascar</option>
+              <option value="Malaysia">Malaysia</option>
+              <option value="Malawi">Malawi</option>
+              <option value="Maldives">Maldives</option>
+              <option value="Mali">Mali</option>
+              <option value="Malta">Malta</option>
+              <option value="Marshall Islands">Marshall Islands</option>
+              <option value="Mauritania">Mauritania</option>
+              <option value="Mauritius">Mauritius</option>
+              <option value="Mexico">Mexico</option>
+              <option value="Moldova">Moldova</option>
+              <option value="Monaco">Monaco</option>
+              <option value="Mongolia">Mongolia</option>
+              <option value="Montenegro">Montenegro</option>
+              <option value="Morocco">Morocco</option>
+              <option value="Mozambique">Mozambique</option>
+              <option value="Myanmar">Myanmar</option>
+              <option value="Nambia">Nambia</option>
+              <option value="Nauru">Nauru</option>
+              <option value="Nepal">Nepal</option>
+              <option value="Netherlands">Netherlands</option>
+              <option value="New Zealand">New Zealand</option>
+              <option value="Nicaragua">Nicaragua</option>
+              <option value="Niger">Niger</option>
+              <option value="Nigeria">Nigeria</option>
+              <option value="Norway">Norway</option>
+              <option value="Oman">Oman</option>
+              <option value="Pakistan">Pakistan</option>
+              <option value="Palau">Palau</option>
+              <option value="Palestine">Palestine</option>
+              <option value="Panama">Panama</option>
+              <option value="Papua New Guinea">Papua New Guinea</option>
+              <option value="Paraguay">Paraguay</option>
+              <option value="Peru">Peru</option>
+              <option value="Phillipines">Philippines</option>
+              <option value="Poland">Poland</option>
+              <option value="Portugal">Portugal</option>
+              <option value="Puerto Rico">Puerto Rico</option>
+              <option value="Qatar">Qatar</option>
+              <option value="Romania">Romania</option>
+              <option value="Russia">Russia</option>
+              <option value="Rwanda">Rwanda</option>
+              <option value="St Helena">St Helena</option>
+              <option value="St Kitts-Nevis">St Kitts-Nevis</option>
+              <option value="St Lucia">St Lucia</option>
+              <option value="St Vincent & Grenadines">St Vincent & Grenadines</option>
+              <option value="Samoa">Samoa</option>
+              <option value="San Marino">San Marino</option>
+              <option value="Sao Tome & Principe">Sao Tome & Principe</option>
+              <option value="Saudi Arabia">Saudi Arabia</option>
+              <option value="Senegal">Senegal</option>
+              <option value="Serbia">Serbia</option>
+              <option value="Seychelles">Seychelles</option>
+              <option value="Sierra Leone">Sierra Leone</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Slovakia">Slovakia</option>
+              <option value="Slovenia">Slovenia</option>
+              <option value="Solomon Islands">Solomon Islands</option>
+              <option value="Somalia">Somalia</option>
+              <option value="South Africa">South Africa</option>
+              <option value="Spain">Spain</option>
+              <option value="Sri Lanka">Sri Lanka</option>
+              <option value="Sudan">Sudan</option>
+              <option value="Suriname">Suriname</option>
+              <option value="Swaziland">Swaziland</option>
+              <option value="Sweden">Sweden</option>
+              <option value="Switzerland">Switzerland</option>
+              <option value="Syria">Syria</option>
+              <option value="Tahiti">Tahiti</option>
+              <option value="Taiwan">Taiwan</option>
+              <option value="Tajikistan">Tajikistan</option>
+              <option value="Tanzania">Tanzania</option>
+              <option value="Thailand">Thailand</option>
+              <option value="Togo">Togo</option>
+              <option value="Tonga">Tonga</option>
+              <option value="Trinidad & Tobago">Trinidad & Tobago</option>
+              <option value="Tunisia">Tunisia</option>
+              <option value="Turkey">Turkey</option>
+              <option value="Turkmenistan">Turkmenistan</option>
+              <option value="Tuvalu">Tuvalu</option>
+              <option value="Uganda">Uganda</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Ukraine">Ukraine</option>
+              <option value="United Arab Erimates">United Arab Emirates</option>
+              <option value="United States of America">United States of America</option>
+              <option value="Uraguay">Uruguay</option>
+              <option value="Uzbekistan">Uzbekistan</option>
+              <option value="Vanuatu">Vanuatu</option>
+              <option value="Vatican">Vatican</option>
+              <option value="Venezuela">Venezuela</option>
+              <option value="Vietnam">Vietnam</option>
+              <option value="Yemen">Yemen</option>
+              <option value="Zambia">Zambia</option>
+              <option value="Zimbabwe">Zimbabwe</option>
+            </select>
+          </td>
+        </tr>
+        
+        <tr>
+          <th> <label for="kontaktUnos">Kontakt :</label></th>
+          <td>
+            <input class="form-control" type="text" id="kontaktUnos" placeholder="Unesite kontakt" />
+          </td>
+        </tr>
+        <tr>
+          <th> <label for="emailUnos">E-mail :</label></th>
+          <td>
+            <input class="form-control" type="email" id="emailUnos" placeholder="Unesite email" />
+          </td>
+        </tr>        
+        <tr>
+          <th> <label for="napomenaUnos">Napomena :</label></th>
+          <td>
+            <textarea class="form-control" rows="4" cols="50" id="napomenaUnos"
+              placeholder="Unesi napomenu..."></textarea>
+          </td>
+        </tr>
+        <tr>
+          <th></th>
+          <td>
+            <button id="potvrdaUnosaIzleta" class="btn btn-outline-success" (mouseenter)="osvjeziCijenu()"
+              (click)="potvrdiUnos(content)">Potvrdi unos</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #content let-modal id="modalBox">
+    <div class="modal-header">
+      <h4 id="modal-basic-title"></h4>
+
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+       <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped" id="tablicaKardinalnihGresaka">
+          <tr *ngFor="let greska of listaKardinalnihGresaka">
+              <th><i id="emojiAlert" class="fa fa-exclamation-triangle"></i></th>
+              <td>{{greska}}</td>
+          </tr>
+        </table>
+
+        <table class="table table-striped" id="tablicaObicnihGresaka">
+          <tr>
+              <td *ngIf="listaObicnihGresaka.length>0" colspan="2">Niste unijeli sljedeće stavke:</td>
+              <td align="center"></td>
+          </tr>
+          <div *ngIf="listaObicnihGresaka.length>0">
+            <tr *ngFor="let greska of listaObicnihGresaka">
+                <th><i id="emojiAlert2" class="fa fa-exclamation-triangle"></i></th>
+                <td>{{greska}}</td>
+            </tr>
+          </div>
+            <tr>
+                <td colspan="2"><br><i class="fa fa-save"></i><br>Da li ste sigurni da želite zaključiti rezervaciju pod brojem #{{this.databaseService.brojNasihIzleta+1}} ?</td>
+                <td align="center"></td>
+            </tr>  
+          </table>  
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" id="btnPotvrdiUnos" (click)="zavrsniSUnosom()">Potvrdi</button>
+      <button type="button" class="btn btn-outline-danger" id="btnOdustaniUnos" (click)="this.modalService.dismissAll()">Odustani</button>
+    </div>
+</ng-template>
+
+
+</body>

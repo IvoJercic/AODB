@@ -1,0 +1,38 @@
+h3 {
+    margin: 0 0 10px;
+  }
+  
+  pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+  }
+
+  #gori{
+    text-align: center;
+
+  }
+
+  #kalendar{
+      width:80%;
+      height: 10%;
+      align-content: center;
+      margin-left: 10%;
+      display: block;
+      clear:both;
+  }
+
+.navigacijskiBtn{
+  color: black;
+  background-color: orange;
+}
+
+#ovajMjesec{
+  font-family: Montserrat-Bold;
+
+}
+
+.naslovStranice{
+  padding-top: 3%;
+  text-align: center;
+  font-family: Montserrat-Bold;
+}

@@ -1,0 +1,74 @@
+table{
+    width: 76%;
+    margin: auto;
+    font-size: medium;
+}
+
+th{
+    width: 20%;
+    color: black;
+}
+
+input,select,option,textarea {
+    font-family: Montserrat-Bold;
+    font-size: medium;
+    line-height: 1.5;  
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    background: #333333;
+    color: orange;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+  
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+  
+    position: relative;
+    z-index: 1;
+  }
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: orange;
+    opacity: 1; /* Firefox */
+  }
+
+  /*#tablica tr:nth-child(odd) {background-color: #f2f2f2;}*/
+h3{
+    margin: auto;
+    text-align: center;
+    font-family: Montserrat-Bold;
+}
+
+td{
+  width: auto;
+}
+
+hr{
+  margin-top: 5%;
+}
+
+.popis{
+  text-align: center;
+  margin-top: 5%;
+}
+
+
+.tablicaKonstanti tr:nth-child(odd) {background-color: #f2f2f2;}
+.iks{
+  color: red;
+}
+
+.naslovStranice{
+  padding-top: 3%;
+  text-align: center;
+  font-family: Montserrat-Bold;
+}

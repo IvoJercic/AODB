@@ -1,0 +1,90 @@
+<body>
+        <div class="wrapper d-flex align-items-stretch">
+          <nav id="sidebar"  style="background-image: url(../assets/images/ao.jpg);  background-repeat: repeat-y;">
+            <div class="custom-menu">
+            </div>
+            <div class="">
+                <h1><a class="logo">Korisnik <span>{{this.databaseService.trenutnoPrijavljen}}</span></a></h1>              <ul>
+                <li>
+                  <a [routerLink]="['/dashboard']"><span class="fa fa-bar-chart mr-3"></span>Info ploča</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/calendar']"><span class="fa fa-calendar mr-3"></span>Kalendar</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/converter']"><span class="fa fa-eur mr-3"></span>Kalkulator valuta</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/today']"><span class="fa fa-calendar-times-o mr-3"></span>Aktualno</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/bookTrip']"><span class="fa fa-book mr-3"></span>Rezerviraj (AO)</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/bookTripForOthers']"><span class="fa fa-address-book-o mr-3"></span>Rezerviraj
+                    (Suradnici)</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/rentEquip']"><span class="fa fa-shirtsinbulk mr-3"></span>Iznajmi opremu</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/rentShoes']"><span class="fa fa-tag mr-3"></span>Iznajmi patike</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/basicToAdvanced']"><span class="fa fa-arrows-h mr-3"></span>Prebačaj</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/employees']"><span class="fa fa-money mr-3"></span>Plati radnike</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/commissionFee']"><span class="fa fa-handshake-o mr-3"></span>Provizije</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/allGroups']"><span class="fa fa-users mr-3"></span>Popis grupa (AO)</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/allPartnersTrips']"><span class="fa fa-users mr-3"></span>Popis grupa (Suradnici)</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/allRents']"><span class="fa fa-list mr-3"></span>Popis renta</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/dataInputToDB']"><span class="fa fa-database mr-3"></span>Unesi konstante</a>
+                </li>
+                <li>
+                  <a (click)="this.databaseService.odjaviKorisnika()"><span class="fa fa-sign-out mr-3"></span>Odjavi se</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+      
+        <!-- Page Content  -->
+        <div id="content">
+            <h1 class="naslovStranice">Kalendar</h1>
+            <hr>
+            <div id="gori" align="center">
+                <button class="btn btn-primary navigacijskiBtn" mwlCalendarPreviousView [view]="view"
+                    [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-dark " mwlCalendarToday [(viewDate)]="viewDate">
+                    Danas
+                </button>
+                <button class="btn btn-primary navigacijskiBtn" mwlCalendarNextView [view]="view"
+                    [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="col-md-4" align="center" id="ovajMjesec">
+                <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+            </div>
+
+            <div [ngSwitch]="view" id="kalendar">
+                <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+                    [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+                    (eventClicked)="handleEvent('Clicked', $event.event)">
+                </mwl-calendar-month-view>
+            </div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,57 @@
+h1{
+    margin: 0%;
+    text-align: center;
+    font-family: Montserrat-Bold;
+}
+.naslovKartica{
+    color: white;
+    padding: 2%;
+  }
+
+  #detaljiTure{
+    font-size:small;
+}
+
+#detaljiTure tr:nth-child(even) {background-color: #f2f2f2;}
+
+tr{
+    text-align: center;
+    font-size: small;
+}
+.card{
+    margin-top:3% ;
+}
+
+.zaglavlje{
+    color: white;
+    background-color: #333333
+  }
+
+  input[type="text"]:disabled {
+    background: white;
+  }
+  .container {
+    width: 100%;
+    margin: auto;
+    padding: 3%;
+    font-size: small;
+
+  }
+  
+  .one {
+    width: 50%;
+    float: left;
+    font-size: small;
+  }
+  
+  .two {
+    margin-left: 15%;
+    font-size: small;
+  }
+
+  .kutija{
+    margin: 0%;
+    display: block;
+    padding: 0%;
+    align-content: stretch;
+}
